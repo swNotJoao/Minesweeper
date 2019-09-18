@@ -12,9 +12,11 @@ class Tile:
 
     def open(self):
         self.state = 'opened'
+        if self.isMine:
+            print "GAME OVER"
 
     def setImg(self, img):
         self.img = img
 
     def getIsMine(self):
-        return isMine
+        return self.isMine

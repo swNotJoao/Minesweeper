@@ -1,12 +1,13 @@
 from tile import Tile
 import pygame
+from random import randint
 
 class Grid:
     def __init__(self, width ,height, bombNumber, window):
-        self.matrix = [[0]*10]*10
+        self.matrix = [[0 for i in range(10)] for j in range(10)]
         self.width = width
         self.height = height
-        self.bombNumber = bombNumber
+        self.bombNumber = 0
 
         self.mineImg0 = pygame.image.load('../assets/0.png')
         self.mineImg0 = pygame.transform.scale(self.mineImg0, (40, 40))
@@ -32,12 +33,25 @@ class Grid:
         self.flagImg = pygame.transform.scale(self.flagImg, (40, 40))
         self.tileImg = pygame.image.load('../assets/tile.png')
         self.tileImg = pygame.transform.scale(self.tileImg, (40, 40))
+        self.bombImg = pygame.image.load('../assets/bomb.jpg')
+        self.bombImg = pygame.transform.scale(self.bombImg, (40, 40))
 
-        for x in range (0, self.width - 1):
-            for y in range (0, self.height - 1):
-                self.matrix[x][y] = Tile(self.tileImg, x*40, y*40, False)
+        for x in range (0, self.width):
+            for y in range (0, self.height):
+                if (self.bombNumber < bombNumber) and (randint(0, 5) == 1):
+                    self.matrix[x][y] = Tile(self.tileImg, x*40, y*40, True)
+                    self.bombNumber += 1
+                else:
+                    self.matrix[x][y] = Tile(self.tileImg, x*40, y*40, False)
 
     def draw(self, window):
-        for x in range (0, self.width - 1):
-            for y in range (0, self.height - 1):
+        for x in range (0, self.width):
+            for y in range (0, self.height):
                 self.matrix[x][y].draw(window)
+
+    def click(self, i, j):
+        self.matrix[i][j].open()
+        if self.matrix[i][j].getIsMine():
+            self.matrix[i][j].setImg(self.bombImg)
+        else:
+            self.matrix[i][j].setImg(self.mineImg0)
