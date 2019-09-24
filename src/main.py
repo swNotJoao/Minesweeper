@@ -1,6 +1,5 @@
-import pygame, sys, os
-from tile import Tile
-from grid import Grid
+import pygame, sys, os, time
+from Objects import Grid, Tile
 
 #Globals
 _windowWidth = 400
@@ -9,19 +8,22 @@ _gridWidth = 10
 _gridHeight = 10
 _cellWidth = _windowWidth / _gridWidth
 _cellHeight = _windowHeight / _gridHeight
-_bombNumber = 10
+_bombNumber = 15
 
 # Setup
 pygame.init()
 pygame.display.set_caption('Minesweeper v1.0b')
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode((_windowWidth, _windowHeight))
 programRunning = True
+gameOver = False
 
-grid = Grid(_gridWidth, _gridHeight, 20, screen)
+grid = Grid(_gridWidth, _gridHeight, _bombNumber, screen)
 
 # Main loop
 while programRunning:
-
+    if gameOver:
+        programRunning = False
     #Draw frame!
     grid.draw(screen)
 
@@ -38,10 +40,16 @@ while programRunning:
             squarex, squarey = x // _cellWidth, y // _cellHeight
             #Check for left mouse button press
             if event.button == 1:
-                print "[!] Touched", x, y, squarex, squarey
-                grid.click(squarex, squarey)
+                ret = grid.click(squarex, squarey)
+
+                if ret == 1:
+                    print 'YOU WON'
+                    gameOver = True
+                elif ret == -1:
+                    print 'GAME OVER'
+                    gameOver = True
             #Check for right mouse button press
             elif event.button == 3:
-                print "[!] Flagged", x, y, squarex, squarey
+                grid.flag(squarex, squarey)
 
     pygame.display.flip()
