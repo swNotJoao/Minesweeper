@@ -2,18 +2,19 @@ import pygame, sys, os, time
 from Objects import Grid, Tile
 
 #Globals
-_windowWidth = 400
-_windowHeight = 400
-_gridWidth = 10
-_gridHeight = 10
+_windowWidth = 800
+_windowHeight = 800
+_gridWidth = 20
+_gridHeight = 20
 _cellWidth = _windowWidth / _gridWidth
 _cellHeight = _windowHeight / _gridHeight
-_bombNumber = 15
+_bombNumber = 50
 
 # Setup
 pygame.init()
 pygame.display.set_caption('Minesweeper v1.0b')
 os.environ['SDL_VIDEO_CENTERED'] = '1'
+resolution = pygame.display.Info()
 screen = pygame.display.set_mode((_windowWidth, _windowHeight))
 programRunning = True
 gameOver = False
