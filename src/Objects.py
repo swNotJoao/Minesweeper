@@ -80,7 +80,25 @@ class Grid:
                         #self.matrix[i+x][j+y].open()
                         if self.matrix[i+x][j+y].state != 'opened':
                             self.click(i+x, j+y)
+	    
         else:
+	    aux = 0
+	    for coord in self.offsets:
+                    x, y = coord[0], coord[1]
+                    if (i+x >= 0) and (j+y >= 0) and (i+x < self.width) and (j+y < self.height):
+                        #self.matrix[i+x][j+y].open()
+                        if self.matrix[i+x][j+y].getFlagState() == 'flagged':
+                            aux +=1
+	    #print aux
+	    if aux == ret:
+	        for coord in self.offsets:
+                    x, y = coord[0], coord[1]
+		    print "AQUI"
+                    if (i+x >= 0) and (j+y >= 0) and (i+x < self.width) and (j+y < self.height):
+                        #self.matrix[i+x][j+y].open()
+                        if self.matrix[i+x][j+y].getFlagState() == 'closed':
+                            self.click(i+x, j+y)
+			    print "clicking " + str(i+x) +', ' + str(j+y)
             return -1
 
         if self.bombsLeft == self.bombNumber:
@@ -163,3 +181,6 @@ class Tile:
 
     def getIsMine(self):
         return self.isMine
+
+    def getFlagState(self):
+	return self.state
