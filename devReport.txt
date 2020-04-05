@@ -1,7 +1,0 @@
-[!] Version 1 BETA
-  *1* Added 10x10 game mode
-
-[!] Version 2 BETA
-  *1*
-  *2*
-  *3*
